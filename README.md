@@ -1,41 +1,113 @@
-# Live Face Swapping
+⭐ FINAL README.md (COPY THIS)
+Markdown
 
-### Install
+# 🚀 FaceFusion AI
 
- - [dlib](https://github.com/davisking/dlib)
- - [opencv](https://opencv.com)
+## 🎯 Real-Time Face Swapping System using Computer Vision
 
-Download the shape detector file from [here](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)
+FaceFusion AI is a real-time face swapping application that uses computer vision techniques to detect facial landmarks and seamlessly replace faces using a live webcam feed or uploaded image.
 
-## Some Results of Swapped Faces
+---
+
+## 📌 Project Description
+
+The system detects facial landmarks using Dlib, maps facial regions using Delaunay triangulation, and applies affine transformation along with seamless cloning to generate realistic face swaps.
+
+This project demonstrates the practical implementation of real-time image processing and AI-based facial transformation.
+
+---
+
+## 🔍 Key Features
+
+✔ Real-time face swapping using webcam  
+✔ Upload any face image for live replacement  
+✔ 68-point facial landmark detection (Dlib)  
+✔ Delaunay triangulation for accurate face mapping  
+✔ Affine transformation for warping facial regions  
+✔ Seamless cloning for realistic blending  
+✔ Capture and save swapped images  
+✔ Interactive Flask-based web dashboard  
+
+---
+
+## ⚙️ Tech Stack
+
+- Python  
+- OpenCV  
+- Dlib  
+- Flask  
+- NumPy  
+- HTML, CSS, JavaScript  
+
+---
+
+## 🧠 Core Concepts Used
+
+- Facial Landmark Detection  
+- Image Warping & Transformation  
+- Delaunay Triangulation  
+- Real-Time Video Processing  
+- Image Blending Techniques  
+
+---
+
+## 🎯 Applications
+
+- AR Filters (Snapchat / Instagram style)  
+- Entertainment & Media Editing  
+- Virtual Try-On Systems  
+- Deepfake Research Basics  
+
+---
+
+## 📂 Project Structure
+FaceFusion-AI/
+│
+├── app.py
+├── faceSwapper.py
+├── faceLandmarks.py
+├── templates/
+│ └── index.html
+├── uploads/
+├── captures/
+├── README.md
+├── .gitignore
 
 
-### Lionel Messi and Cristiano Ronaldo
 
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/RSM.jpg" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/RSM.jpg" width="300" height="400" />
+---
 
+## 🚀 How to Run
 
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/MSR.jpg" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/RSM.jpg" width="300" height="400" />
+```bash
+# Clone repository
+git clone https://github.com/YOUR_USERNAME/FaceFusion-AI.git
 
+# Go to project folder
+cd FaceFusion-AI
 
+# Activate virtual environment
+source .venv/bin/activate
 
-### Donald Trump and Kim Jong Un
-
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/TSK.jpg" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/RSM.jpg" width="300" height="400" />
-
-
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/KST.jpg" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/RSM.jpg" width="300" height="400" />
-
-
-
-## Some Results of Landmarks Identified
-
-
-Example 1
-
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/Example%201.png" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/Example%201.png" width="500" height="500" />
+# Run the app
+python app.py
+Then open:
 
 
-Example 2 
+http://127.0.0.1:5001
+📸 Features in Action
+Upload face image
 
-<img src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/Example%202.png" alt="" data-canonical-src="https://github.com/akshaybhatia10/ComputerVison-Projects/blob/master/FaceSwapper/Example%202.png" width="500" height="500" />
+Live webcam face swap
+
+Capture swapped image
+
+👨‍💻 Developed By
+Shreyash Hon
+
+🏫 Academic Context
+Department: Artificial Intelligence & Machine Learning (AIML)
+Institution: Sanjivani University
+
+⭐ Acknowledgment
+Guided by: Dr. Makarand Mali
