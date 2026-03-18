@@ -79,10 +79,6 @@ FaceFusion-AI/
 
 ## 🚀 How to Run
 
-```bash
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/FaceFusion-AI.git
-
 # Go to project folder
 cd FaceFusion-AI
 
