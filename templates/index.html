@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Face Swap Studio</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:radial-gradient(circle at top,#0f172a,#020617);
+color:white;
+overflow:hidden;
+}
+
+/* animated background */
+
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(45deg,#3b82f6,#06b6d4,#9333ea,#3b82f6);
+animation:move 20s linear infinite;
+opacity:0.08;
+}
+
+@keyframes move{
+0%{transform:translate(-50%,-50%) rotate(0deg)}
+100%{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+/* HEADER */
+
+.header{
+text-align:center;
+padding:20px;
+font-size:34px;
+font-weight:bold;
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:calc(100vh - 80px);
+position:relative;
+z-index:1;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:360px;
+padding:30px;
+background:rgba(30,41,59,0.7);
+backdrop-filter:blur(20px);
+border-right:1px solid rgba(255,255,255,0.1);
+}
+
+/* INPUT */
+
+input[type=file]{
+width:100%;
+margin-top:10px;
+}
+
+/* DRAG ZONE */
+
+#drop-zone{
+margin-top:15px;
+padding:35px;
+border:2px dashed #3b82f6;
+border-radius:12px;
+text-align:center;
+color:#93c5fd;
+transition:0.3s;
+}
+
+#drop-zone:hover{
+background:rgba(59,130,246,0.15);
+transform:scale(1.02);
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+background:linear-gradient(45deg,#3b82f6,#06b6d4);
+color:white;
+box-shadow:0 0 15px rgba(59,130,246,0.7);
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px rgba(59,130,246,1);
+}
+
+/* VIDEO PANEL */
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+/* VIDEO */
+
+.video-box{
+width:95%;
+height:70%;
+border-radius:15px;
+overflow:hidden;
+background:black;
+box-shadow:0 0 50px rgba(59,130,246,0.6);
+}
+
+#video{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* PREVIEW */
+
+.preview{
+margin-top:20px;
+text-align:center;
+}
+
+.preview img{
+width:120px;
+border-radius:10px;
+border:2px solid #3b82f6;
+box-shadow:0 0 15px rgba(59,130,246,0.8);
+}
+
+/* STATUS */
+
+.status{
+margin-top:15px;
+font-weight:bold;
+color:#22c55e;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1}
+50%{opacity:0.5}
+100%{opacity:1}
+}
+
+/* GALLERY */
+
+.gallery{
+width:95%;
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.gallery img{
+width:120px;
+border-radius:8px;
+border:2px solid #3b82f6;
+box-shadow:0 0 10px rgba(59,130,246,0.7);
+transition:0.3s;
+}
+
+.gallery img:hover{
+transform:scale(1.1);
+}
+
+/* AI INFO */
+
+.info{
+margin-top:25px;
+padding:15px;
+background:rgba(2,6,23,0.7);
+border-radius:12px;
+font-size:14px;
+line-height:1.6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+AI Face Swap Studio
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h2>Upload Face</h2>
+
+<form id="uploadForm">
+
+<input type="file" name="file" required>
+
+<button type="submit">Upload Image</button>
+
+</form>
+
+<div id="drop-zone">
+Drag & Drop Image
+</div>
+
+<div class="preview">
+<img id="preview">
+</div>
+
+<p class="status" id="status">
+AI Ready
+</p>
+
+<button onclick="capture()">
+Capture Swapped Image
+</button>
+
+<div class="info">
+
+<b>AI Pipeline</b><br>
+
+Face Detection – dlib<br>
+Landmark Detection – 68 Points<br>
+Delaunay Triangulation<br>
+Affine Warping<br>
+SeamlessClone Blending
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="video-box">
+<img id="video" src="/video">
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+</div>
+
+</div>
+
+<script>
+
+/* Upload */
+
+document.getElementById("uploadForm").onsubmit=function(e){
+
+e.preventDefault()
+
+let formData=new FormData(this)
+
+document.getElementById("status").innerText="AI Processing..."
+
+fetch("/upload",{method:"POST",body:formData})
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("status").innerText=data.status
+})
+
+let file=this.file.files[0]
+
+document.getElementById("preview").src=URL.createObjectURL(file)
+
+}
+
+/* Drag drop */
+
+const dropZone=document.getElementById("drop-zone")
+
+dropZone.addEventListener("dragover",e=>{
+e.preventDefault()
+})
+
+dropZone.addEventListener("drop",e=>{
+
+e.preventDefault()
+
+const file=e.dataTransfer.files[0]
+
+let formData=new FormData()
+
+formData.append("file",file)
+
+fetch("/upload",{method:"POST",body:formData})
+
+document.getElementById("preview").src=URL.createObjectURL(file)
+
+})
+
+/* Capture */
+
+function capture(){
+
+fetch("/capture")
+.then(res=>res.json())
+.then(data=>{
+
+let img=document.createElement("img")
+
+img.src="/captures/"+data.file
+
+document.getElementById("gallery").appendChild(img)
+
+})
+
+}
+
+/* Keyboard shortcut */
+
+document.addEventListener("keydown",function(e){
+
+if(e.key==="c"){
+capture()
+}
+
+})
+
+</script>
+
+</body>
+</html>
